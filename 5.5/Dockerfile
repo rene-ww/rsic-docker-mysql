@@ -1,10 +1,15 @@
 FROM ubuntu:trusty
+
 MAINTAINER Fernando Mayo <fernando@tutum.co>, Feng Honglin <hfeng@tutum.co>
+
+# Percona preps
+RUN apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A && \
+    echo "deb http://repo.percona.com/apt $(lsb_release -cs) main" >/etc/apt/sources.list.d/percona.list
 
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -yq install mysql-server-5.5 pwgen && \
+  apt-get -yq install mysql-server-5.5 pwgen percona-toolkit percona-xtrabackup && \
   rm -rf /var/lib/apt/lists/*
 
 # Remove pre-installed database
